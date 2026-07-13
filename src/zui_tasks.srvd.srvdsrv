@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service defenition for tasks application'
+define service ZUI_TASKS {
+  expose ZC_CLIENT as Clients;
+}
