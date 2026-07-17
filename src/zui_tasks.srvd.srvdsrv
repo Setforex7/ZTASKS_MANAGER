@@ -1,4 +1,10 @@
 @EndUserText.label: 'Service defenition for tasks application'
 define service ZUI_TASKS {
-  expose ZC_CLIENT as Clients;
+  expose ZC_CLIENT       as Clients;
+  expose ZC_WorkItem     as WorkItem;
+  expose ZI_Tasks_Status as TasksStatus;
+  expose ZI_Tasks_types  as TasksTypes;
+  expose ZI_TASKS_PRIOR  as TasksPriorities;
+  expose ZI_USER_VH      as Users;
+  expose ZC_WI_ASSIGNEE  as Assignees;
 }

@@ -1,0 +1,69 @@
+managed implementation in class zbp_i_workitem unique;
+strict ( 2 );
+
+define behavior for zi_workitem alias WorkItem
+persistent table zdt_workitem
+lock master
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  association _Assignee { create; }
+
+  field ( readonly, numbering : managed ) WorkItemUUID;
+  field ( readonly ) WorkItemID;
+  field ( mandatory ) ClientUUID, Title;
+  field ( readonly ) CreatedBy, CreatedAt, LastChangedBy, LastChangedAt, LocalLastChangedAt;
+
+  determination setWorkItemID on save { create; }
+  validation checkDates on save { field StartDate, DueDate; create; update; }
+
+  mapping for zdt_workitem
+  {
+    WorkItemUUID       = workitem_uuid;
+    WorkItemID         = workitem_id;
+    ClientUUID         = client_uuid;
+    Title              = title;
+    Description        = description;
+    StatusCode         = status_code;
+    TypeCode           = type_code;
+    PriorityCode       = priority_code;
+    StartDate          = start_date;
+    DueDate            = due_date;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_WI_ASSIGNEE alias Assignee
+persistent table zdt_wi_assignee
+lock dependent by _WorkItem
+authorization dependent by _WorkItem
+{
+  update;
+  delete;
+
+  field ( readonly, numbering : managed ) AssigneeUUID;
+  field ( readonly ) WorkItemUUID;
+  field ( mandatory ) UserID;
+  field ( readonly ) CreatedBy, CreatedAt, LastChangedBy, LastChangedAt, LocalLastChangedAt;
+
+  association _WorkItem;
+
+  mapping for zdt_wi_assignee
+  {
+    AssigneeUUID       = assignee_uuid;
+    WorkItemUUID       = workitem_uuid;
+    UserID             = user_id;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

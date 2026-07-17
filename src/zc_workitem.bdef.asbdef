@@ -1,0 +1,19 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_WorkItem alias WorkItem
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Assignee { create; }
+}
+
+define behavior for ZC_WI_ASSIGNEE alias Assignee
+{
+  use update;
+  use delete;
+
+  use association _WorkItem;
+}
